@@ -18,9 +18,13 @@ export default function Cart() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   }
 
+  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+
   return (
     <div>
       <h1>Cart Page</h1>
+
+      <h2>Total Price: ${totalPrice.toFixed(2)}</h2>
 
       {cart.length === 0 ? (
         <p>Cart is empty</p>
