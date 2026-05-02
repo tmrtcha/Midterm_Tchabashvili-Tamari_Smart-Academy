@@ -19,7 +19,22 @@ export default function Home() {
   function addToCart(product) {
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const updatedCart = [...existingCart, product];
+    const found = existingCart.find((item) => item.id === product.id);
+
+    let updatedCart;
+
+    if (found) {
+      updatedCart = existingCart.map((item) =>
+        item.id === product.id
+          ? {
+              ...item,
+              quantity: item.quantity < 10 ? item.quantity + 1 : 10,
+            }
+          : item,
+      );
+    } else {
+      updatedCart = [...existingCart, { ...product, quantity: 1 }];
+    }
 
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   }

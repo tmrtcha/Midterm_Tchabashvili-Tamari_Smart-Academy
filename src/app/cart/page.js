@@ -18,7 +18,38 @@ export default function Cart() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   }
 
-  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+  function increaseQuantity(id) {
+    const updatedCart = cart.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            quantity: item.quantity < 10 ? item.quantity + 1 : 10,
+          }
+        : item,
+    );
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  }
+
+  function decreaseQuantity(id) {
+    const updatedCart = cart.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            quantity: item.quantity > 1 ? item.quantity - 1 : 1,
+          }
+        : item,
+    );
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  }
+
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
 
   return (
     <div>
@@ -34,6 +65,8 @@ export default function Cart() {
             key={product.id}
             product={product}
             onRemove={removeFromCart}
+            onIncrease={increaseQuantity}
+            onDecrease={decreaseQuantity}
           />
         ))
       )}
