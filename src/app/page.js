@@ -5,7 +5,6 @@ import ProductItem from "../components/ProductItem";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     async function getProducts() {
@@ -18,13 +17,16 @@ export default function Home() {
   }, []);
 
   function addToCart(product) {
-    setCart([...cart, product]);
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const updatedCart = [...existingCart, product];
+
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   }
 
   return (
     <div>
       <h1>Products</h1>
-      <h2>Cart Items: {cart.length}</h2>
 
       {products.map((product) => (
         <ProductItem
