@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ProductItem({
   product,
   onAddToCart,
@@ -7,7 +9,10 @@ export default function ProductItem({
 }) {
   return (
     <div style={{ border: "1px solid #ddd", padding: "10px", margin: "10px" }}>
-      <h3>{product.title}</h3>
+      <Link href={`/product/details/${product.id}`}>
+        <h3 style={{ cursor: "pointer" }}>{product.title}</h3>
+      </Link>
+
       <img src={product.image} alt={product.title} width={100} />
       <p>Price: ${product.price}</p>
 
