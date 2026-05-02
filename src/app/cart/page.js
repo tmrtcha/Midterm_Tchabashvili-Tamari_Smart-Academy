@@ -11,6 +11,13 @@ export default function Cart() {
     setCart(storedCart);
   }, []);
 
+  function removeFromCart(id) {
+    const updatedCart = cart.filter((item) => item.id !== id);
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  }
+
   return (
     <div>
       <h1>Cart Page</h1>
@@ -19,7 +26,11 @@ export default function Cart() {
         <p>Cart is empty</p>
       ) : (
         cart.map((product) => (
-          <ProductItem key={product.id} product={product} />
+          <ProductItem
+            key={product.id}
+            product={product}
+            onRemove={removeFromCart}
+          />
         ))
       )}
     </div>
