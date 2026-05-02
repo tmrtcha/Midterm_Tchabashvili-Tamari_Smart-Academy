@@ -7,19 +7,30 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(storedCart);
+    async function getCart() {
+      const cartRes = await fetch("https://fakestoreapi.com/carts/1");
+      const cartData = await cartRes.json();
+
+      const productsRes = await fetch("https://fakestoreapi.com/products");
+      const productsData = await productsRes.json();
+
+      const fullCart = cartData.products.map((item) => {
+        const product = productsData.find((p) => p.id === item.productId);
+
+        return {
+          ...product,
+          quantity: item.quantity,
+        };
+      });
+
+      setCart(fullCart);
+    }
+
+    getCart();
   }, []);
 
-  function removeFromCart(id) {
-    const updatedCart = cart.filter((item) => item.id !== id);
-
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  }
-
   function increaseQuantity(id) {
-    const updatedCart = cart.map((item) =>
+    const updated = cart.map((item) =>
       item.id === id
         ? {
             ...item,
@@ -28,12 +39,11 @@ export default function Cart() {
         : item,
     );
 
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updated);
   }
 
   function decreaseQuantity(id) {
-    const updatedCart = cart.map((item) =>
+    const updated = cart.map((item) =>
       item.id === id
         ? {
             ...item,
@@ -42,8 +52,7 @@ export default function Cart() {
         : item,
     );
 
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updated);
   }
 
   const totalPrice = cart.reduce(
@@ -58,13 +67,12 @@ export default function Cart() {
       <h2>Total Price: ${totalPrice.toFixed(2)}</h2>
 
       {cart.length === 0 ? (
-        <p>Cart is empty</p>
+        <p>Loading...</p>
       ) : (
         cart.map((product) => (
           <ProductItem
             key={product.id}
             product={product}
-            onRemove={removeFromCart}
             onIncrease={increaseQuantity}
             onDecrease={decreaseQuantity}
           />
