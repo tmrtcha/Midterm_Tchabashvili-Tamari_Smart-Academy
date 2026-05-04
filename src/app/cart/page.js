@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProductItem from "../../components/ProductItem";
+import styles from "./page.module.css";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
@@ -30,29 +30,33 @@ export default function Cart() {
   }, []);
 
   function increaseQuantity(id) {
-    const updated = cart.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            quantity: item.quantity < 10 ? item.quantity + 1 : 10,
-          }
-        : item,
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: item.quantity < 10 ? item.quantity + 1 : 10,
+            }
+          : item,
+      ),
     );
-
-    setCart(updated);
   }
 
   function decreaseQuantity(id) {
-    const updated = cart.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            quantity: item.quantity > 1 ? item.quantity - 1 : 1,
-          }
-        : item,
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: item.quantity > 1 ? item.quantity - 1 : 1,
+            }
+          : item,
+      ),
     );
+  }
 
-    setCart(updated);
+  function removeItem(id) {
+    setCart((prev) => prev.filter((item) => item.id !== id));
   }
 
   const totalPrice = cart.reduce(
@@ -61,23 +65,66 @@ export default function Cart() {
   );
 
   return (
-    <div>
-      <h1>Cart Page</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Shopping Cart</h1>
 
-      <h2>Total Price: ${totalPrice.toFixed(2)}</h2>
+      <div className={styles.wrapper}>
+        {/* LEFT */}
+        <div className={styles.items}>
+          {cart.length === 0 ? (
+            <p>Loading...</p>
+          ) : (
+            cart.map((item) => (
+              <div key={item.id} className={styles.item}>
+                <img src={item.image} alt={item.title} />
 
-      {cart.length === 0 ? (
-        <p>Loading...</p>
-      ) : (
-        cart.map((product) => (
-          <ProductItem
-            key={product.id}
-            product={product}
-            onIncrease={increaseQuantity}
-            onDecrease={decreaseQuantity}
-          />
-        ))
-      )}
+                <div className={styles.info}>
+                  <h3>{item.title}</h3>
+                </div>
+
+                <div className={styles.quantity}>
+                  <button onClick={() => decreaseQuantity(item.id)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button onClick={() => increaseQuantity(item.id)}>+</button>
+                </div>
+
+                <div className={styles.price}>
+                  ${(item.price * item.quantity).toFixed(2)}
+                </div>
+
+                <button
+                  className={styles.remove}
+                  onClick={() => removeItem(item.id)}
+                >
+                  🗑
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* RIGHT */}
+        <div className={styles.summary}>
+          <h2>Order Summary</h2>
+
+          <div className={styles.row}>
+            <span>Shipping</span>
+            <span className={styles.free}>Free</span>
+          </div>
+
+          <div className={styles.row}>
+            <span>Subtotal</span>
+            <span>${totalPrice.toFixed(2)}</span>
+          </div>
+
+          <div className={styles.total}>
+            <span>Total</span>
+            <span>${totalPrice.toFixed(2)}</span>
+          </div>
+
+          <button className={styles.buy}>BUY</button>
+        </div>
+      </div>
     </div>
   );
 }

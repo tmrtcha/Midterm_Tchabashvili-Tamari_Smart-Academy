@@ -1,0 +1,93 @@
+.container {
+  padding: 40px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+/* LEFT */
+.item {
+  display: grid;
+  grid-template-columns: 80px 1fr 120px 100px 50px;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.item img {
+  width: 70px;
+}
+
+.info h3 {
+  font-size: 14px;
+}
+
+/* QUANTITY */
+.quantity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+/* PRICE */
+.price {
+  font-weight: bold;
+}
+
+/* REMOVE */
+.remove {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* RIGHT */
+.summary {
+  background: #f7f7f7;
+  padding: 20px;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.free {
+  color: green;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.buy {
+  width: 100%;
+  padding: 12px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
