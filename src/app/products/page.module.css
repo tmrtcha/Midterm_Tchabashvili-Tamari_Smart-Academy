@@ -20,6 +20,9 @@
   text-decoration: none;
   color: black;
   transition: 0.2s ease;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -41,4 +44,16 @@
 .price {
   font-weight: bold;
   font-size: 16px;
+}
+
+.button {
+  width: 100%;
+  padding: 8px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  margin-top: auto;
 }

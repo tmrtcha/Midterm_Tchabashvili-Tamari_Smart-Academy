@@ -1,44 +1,25 @@
 "use client";
 
 import Link from "next/link";
+import styles from "./navbar.module.css";
 
 export default function Navbar() {
   return (
-    <nav
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "12px 20px",
-        background: "#ffffff",
-        borderBottom: "1px solid #eee",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      {/* Logo */}
-      <div style={{ fontWeight: "bold", fontSize: "22px", color: "#111" }}>
-        amazon
-      </div>
+    <nav className={styles.nav}>
+      {/* LOGO */}
+      <div className={styles.logo}>amazon</div>
 
-      {/* Menu */}
-      <div style={{ display: "flex", gap: "20px", fontSize: "14px" }}>
+      {/* MENU */}
+      <div className={styles.menu}>
         <Link href="/products">Products</Link>
         <Link href="/profile">Profile</Link>
         <Link href="/cart">Cart</Link>
       </div>
 
-      {/* Search placeholder */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "6px",
-          border: "1px solid #ddd",
-          padding: "6px 10px",
-          borderRadius: "5px",
-        }}
-      >
-        🔍 <span style={{ color: "#888" }}>Search</span>
+      {/* SEARCH */}
+      <div className={styles.searchBox}>
+        <input type="text" placeholder="Search products..." />
+        <button>🔍</button>
       </div>
     </nav>
   );
